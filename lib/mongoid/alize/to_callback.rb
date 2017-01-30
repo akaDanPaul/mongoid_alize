@@ -10,8 +10,8 @@ module Mongoid
         set_callback
 
         # define_destroy_callback
-        alias_destroy_callback
-        set_destroy_callback
+        # alias_destroy_callback
+        # set_destroy_callback
       end
 
       def define_callback
@@ -130,26 +130,26 @@ module Mongoid
         end
       end
 
-      def set_destroy_callback
-        unless callback_attached?("destroy", aliased_destroy_callback_name)
-          klass.set_callback(:destroy, :after, aliased_destroy_callback_name)
-        end
-      end
+      # def set_destroy_callback
+      #   unless callback_attached?("destroy", aliased_destroy_callback_name)
+      #     klass.set_callback(:destroy, :after, aliased_destroy_callback_name)
+      #   end
+      # end
 
-      def alias_destroy_callback
-        unless callback_defined?(aliased_destroy_callback_name)
-          klass.send(:alias_method, aliased_destroy_callback_name, destroy_callback_name)
-          klass.send(:public, aliased_destroy_callback_name)
-        end
-      end
+      # def alias_destroy_callback
+      #   unless callback_defined?(aliased_destroy_callback_name)
+      #     klass.send(:alias_method, aliased_destroy_callback_name, destroy_callback_name)
+      #     klass.send(:public, aliased_destroy_callback_name)
+      #   end
+      # end
 
-      def aliased_destroy_callback_name
-        "denormalize_destroy_#{direction}_#{relation}"
-      end
+      # def aliased_destroy_callback_name
+      #   "denormalize_destroy_#{direction}_#{relation}"
+      # end
 
-      def destroy_callback_name
-        "_#{aliased_destroy_callback_name}"
-      end
+      # def destroy_callback_name
+      #   "_#{aliased_destroy_callback_name}"
+      # end
 
       def direction
         "to"
