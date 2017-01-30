@@ -9,7 +9,7 @@ module Mongoid
         alias_callback
         set_callback
 
-        define_destroy_callback
+        # define_destroy_callback
         alias_destroy_callback
         set_destroy_callback
       end
@@ -46,28 +46,28 @@ module Mongoid
         CALLBACK
       end
 
-      def define_destroy_callback
-        klass.class_eval <<-CALLBACK, __FILE__, __LINE__ + 1
-
-          def #{destroy_callback_name}
-            #{iterable_relation}.each do |relation|
-              next if relation.attributes.frozen?
-
-              is_one = #{is_one?}
-              prefixed_name = #{prefixed_name}
-              if is_one
-                #{relation_set('prefixed_name', 'nil')}
-              else
-                #{pull_from_inverse}
-              end
-            end
-
-            #{debug ? "puts \"#{destroy_callback_name}\"": ""}
-            true
-          end
-          protected :#{destroy_callback_name}
-        CALLBACK
-      end
+      # def define_destroy_callback
+      #   klass.class_eval <<-CALLBACK, __FILE__, __LINE__ + 1
+      #
+      #     def #{destroy_callback_name}
+      #       #{iterable_relation}.each do |relation|
+      #         next if relation.attributes.frozen?
+      #
+      #         is_one = #{is_one?}
+      #         prefixed_name = #{prefixed_name}
+      #         if is_one
+      #           #{relation_set('prefixed_name', 'nil')}
+      #         else
+      #           #{pull_from_inverse}
+      #         end
+      #       end
+      #
+      #       #{debug ? "puts \"#{destroy_callback_name}\"": ""}
+      #       true
+      #     end
+      #     protected :#{destroy_callback_name}
+      #   CALLBACK
+      # end
 
       def pull_from_inverse
         <<-RUBIES
